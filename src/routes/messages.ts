@@ -77,7 +77,7 @@ router.get('/:page', async (
       ("expiresAt" < now()) as "expired", "type" from message where "creatorId" = $1
       order by "id" desc offset $2 limit 5
     `, [userId, (page - 1) * 5]));
-    promArr.push(getConnection().query('select count(*) as count from message'));
+    promArr.push(getConnection().query('select count(*) as count from message where "creatorId" = $1', [userId]));
     const promiseData = await Promise.all(promArr);
     const data = promiseData[0] as MessageResponse[];
     const count = promiseData[1] as {count: number}[];
