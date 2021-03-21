@@ -26,10 +26,10 @@ const main = async () => {
   const conn = await createConnection();
   conn.runMigrations();
   const app = express();
+  app.use(cors());
   app.use(helmet());
   app.use(express.static(publicPath));
   app.use(express.json());
-  app.use(cors());
 
   app.use(session({
     name: COOKIE_NAME,
